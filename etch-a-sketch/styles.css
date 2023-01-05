@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    width: 480px;
+    height: 480px;
+    display: flex;
+    border: solid 1px black;
+}
+
+.grid {
+    border: solid 0px black;
+}
