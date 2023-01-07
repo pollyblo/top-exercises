@@ -1,6 +1,16 @@
-const container = document.getElementById("container");
-const squareGrids = document.getElementsByClassName("grid");
-const gridResolution = 100;
+const container = document.getElementById('container');
+const squareGrids = document.getElementsByClassName('grid');
+const gridResolution = 32;
+
+main();
+
+function hoverGrids() {
+    for(let i in squareGrids) {
+        squareGrids[i].addEventListener('mouseover', (e) => {
+            e.target.classList.add("blackgrid");  
+        })
+    }
+}
 
 function generateGrid() {
     for(let i = 0; i < gridResolution; i++) {
@@ -24,8 +34,6 @@ function setGrid() {
 
 function main() {
     generateGrid();
-    setGrid()
+    setGrid();
+    hoverGrids();
 }
-
-
-main();

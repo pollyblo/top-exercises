@@ -19,5 +19,9 @@ body {
 }
 
 .grid {
-    border: solid 0px black;
+    border: solid 1px black;
+}
+
+.blackgrid {
+    background-color: black;
 }
