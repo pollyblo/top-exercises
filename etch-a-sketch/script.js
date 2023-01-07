@@ -2,15 +2,9 @@ const container = document.getElementById('container');
 const squareGrids = document.getElementsByClassName('grid');
 const gridResolution = 32;
 
-main();
+let mouseDown = false;
 
-function hoverGrids() {
-    for(let i in squareGrids) {
-        squareGrids[i].addEventListener('mouseover', (e) => {
-            e.target.classList.add("blackgrid");  
-        })
-    }
-}
+main();
 
 function generateGrid() {
     for(let i = 0; i < gridResolution; i++) {
@@ -32,8 +26,28 @@ function setGrid() {
     }
 }
 
+function drawingProcess() {
+    for(let i in squareGrids) {
+        squareGrids[i].addEventListener('mousedown', drawing)
+        container.addEventListener('mouseup', stopDrawing)
+    }
+}
+
+function drawing(e) {
+    e.target.classList.add('blackgrid');
+    for(let i in squareGrids) {
+        squareGrids[i].addEventListener('mousemove', (e) => {
+            e.target.classList.add('blackgrid');
+        })
+    }
+}
+
+function stopDrawing(e) {
+}
+
 function main() {
     generateGrid();
     setGrid();
-    hoverGrids();
+    drawingProcess();
 }
+
