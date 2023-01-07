@@ -4,11 +4,18 @@
     box-sizing: border-box;
 }
 
+*, *::after, *::before {
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
+}
+
 body {
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 50px;
 }
 
 #container {
@@ -16,6 +23,8 @@ body {
     height: 480px;
     display: flex;
     border: solid 1px black;
+
+    cursor: crosshair;
 }
 
 .grid {
@@ -24,4 +33,11 @@ body {
 
 .blackgrid {
     background-color: black;
+}
+
+.resolution-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }

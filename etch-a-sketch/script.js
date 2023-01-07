@@ -1,10 +1,18 @@
 const container = document.getElementById('container');
 const squareGrids = document.getElementsByClassName('grid');
-const gridResolution = 32;
+const slider = document.getElementById('grid-resolution');
+console.log(slider);
 
+let gridResolution = slider.value;
 let mouseDown = false;
 
-main();
+slider.addEventListener('click', () => {
+    gridResolution = slider.value;
+    removeGrid();
+    setGrid()
+    generateGrid();
+    
+});
 
 function generateGrid() {
     for(let i = 0; i < gridResolution; i++) {
@@ -19,6 +27,13 @@ function generateGrid() {
     }
 }
 
+function removeGrid() {
+    for(let i = 0; i < squareGrids.length; i++){
+        for(let j = 0; j < squareGrids[i].length; j++)
+        squareGrids[i][j].remove();
+    }
+}
+
 function setGrid() {
     for(let i = 0; i < squareGrids.length; i++) {
         squareGrids[i].style.width = container.offsetWidth / gridResolution + "px";
@@ -28,26 +43,35 @@ function setGrid() {
 
 function drawingProcess() {
     for(let i in squareGrids) {
-        squareGrids[i].addEventListener('mousedown', drawing)
-        container.addEventListener('mouseup', stopDrawing)
+        squareGrids[i].addEventListener('mousedown', startDrawing)
+        squareGrids[i].addEventListener('mouseover', drawing);
+        document.body.addEventListener('mouseup', stopDrawing)
     }
+}
+
+function startDrawing(e) {
+    mouseDown = !mouseDown;
+    e.target.classList.add('blackgrid');
 }
 
 function drawing(e) {
-    e.target.classList.add('blackgrid');
-    for(let i in squareGrids) {
-        squareGrids[i].addEventListener('mousemove', (e) => {
-            e.target.classList.add('blackgrid');
-        })
-    }
+    if (mouseDown) e.target.classList.add('blackgrid');
 }
 
-function stopDrawing(e) {
+function stopDrawing() {
+    mouseDown = !mouseDown;
 }
+
 
 function main() {
+    // avoid drag
+    window.ondragstart = () => false;
+    
+    // etch-a-sketch making
     generateGrid();
     setGrid();
     drawingProcess();
 }
+
+main();
 
