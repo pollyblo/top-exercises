@@ -1,22 +1,34 @@
+// TODO: Shading Mode - Being able to mousedown outside of the container but still draw w/ mouseover - Clear functionnality - Toggle Drawing/Real Mode 
+
 const container = document.getElementById('container');
 const squareGrids = document.getElementsByClassName('grid');
 const slider = document.getElementById('grid-resolution');
-console.log(slider);
+const columns = document.getElementsByClassName('columns');
+const rainbowButton = document.getElementById('rainbow-btn');
 
 let gridResolution = slider.value;
-let mouseDown = false;
+let isMouseDown = false;
+let isRainbow = false;
 
-slider.addEventListener('click', () => {
-    gridResolution = slider.value;
+// Global Event Listeners
+
+slider.addEventListener('change', () => {
+    gridResolution = slider.value; 
     removeGrid();
-    setGrid()
-    generateGrid();
-    
+    main();
 });
+
+rainbowButton.addEventListener('click', () => {
+    isRainbow = true;
+    console.log(isRainbow);
+});
+
+// Functions of EaS
 
 function generateGrid() {
     for(let i = 0; i < gridResolution; i++) {
         const row = document.createElement("div")
+        row.setAttribute('class', 'columns')
         container.appendChild(row);
         for(let j = 0; j < gridResolution; j++) {
             const squareDiv = document.createElement("div");
@@ -28,11 +40,12 @@ function generateGrid() {
 }
 
 function removeGrid() {
-    for(let i = 0; i < squareGrids.length; i++){
-        for(let j = 0; j < squareGrids[i].length; j++)
-        squareGrids[i][j].remove();
+    for(let i = columns.length - 1; i >= 0; --i) {
+        columns[i].remove();
     }
 }
+
+
 
 function setGrid() {
     for(let i = 0; i < squareGrids.length; i++) {
@@ -42,24 +55,35 @@ function setGrid() {
 }
 
 function drawingProcess() {
-    for(let i in squareGrids) {
-        squareGrids[i].addEventListener('mousedown', startDrawing)
-        squareGrids[i].addEventListener('mouseover', drawing);
-        document.body.addEventListener('mouseup', stopDrawing)
+    for(let grid of squareGrids) {
+        grid.addEventListener('mousedown', startDrawing);
+        grid.addEventListener('mouseover', drawing);
+        document.body.addEventListener('mouseup', stopDrawing);
     }
 }
 
 function startDrawing(e) {
-    mouseDown = !mouseDown;
-    e.target.classList.add('blackgrid');
+    const rainbowColor = Math.floor(Math.random()*16777215).toString(16);
+    isMouseDown = true;
+    e.target.style.backgroundColor = isRainbow ? `#${rainbowColor}` : 'black'; 
 }
 
 function drawing(e) {
-    if (mouseDown) e.target.classList.add('blackgrid');
+    if (isMouseDown) {
+        const rainbowColor = Math.floor(Math.random()*16777215).toString(16); 
+        console.log('avant')
+        if (isRainbow) {
+            e.target.style.backgroundColor = '#' + rainbowColor;
+            console.log('après');
+        } else {
+            e.target.style.backgroundColor = 'black';
+        }
+    }
 }
 
+
 function stopDrawing() {
-    mouseDown = !mouseDown;
+    isMouseDown = false;
 }
 
 
@@ -67,11 +91,13 @@ function main() {
     // avoid drag
     window.ondragstart = () => false;
     
-    // etch-a-sketch making
+    // etch-a-sketch process
     generateGrid();
     setGrid();
     drawingProcess();
 }
 
+
 main();
+
 
