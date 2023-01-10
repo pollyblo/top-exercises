@@ -28,7 +28,8 @@ body {
 }
 
 .grid {
-    border: solid 1px black;
+    border: 1px solid black;
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .blackgrid {
