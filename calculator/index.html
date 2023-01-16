@@ -8,10 +8,11 @@
       <title>Document</title>
    </head>
    <body>
+      <h1>calculator</h1>
       <div id="main-container">
          <div id="display-wrapper">
             <span id="stored-result"></span>
-            <div id="display"></div>
+            <div id="display">0</div>
          </div>
          <div id="buttons">
             <div id="digits">
@@ -24,18 +25,22 @@
                <button type="button" value="1" class="digit">1</button>
                <button type="button" value="2" class="digit">2</button>
                <button type="button" value="3" class="digit">3</button>
-               <button type="reset" $>CLR</button>
+               <!-- <button type="button" value="." id="float">.</button> -->
+               <button type="button" id="clear">clr</button>
+               <button type="button" value="0" class="digit">0</button>
                <button type="button" value="=" id="equals">=</button>
             </div>
             <div id="operators">
                <button type="button" value="+" class="operator">+</button>
                <button type="button" value="-" class="operator">-</button>
-               <button type="button" value="*" class="operator">*</button>
+               <button type="button" value="*" class="operator">x</button>
                <button type="button" value="/" class="operator">/</button>
             </div>
          </div>
       </div>
-
+      <a href="https://github.com/pollyblo/top-exercises/tree/main/calculator"
+         >github</a
+      >
       <script src="./script.js"></script>
    </body>
 </html>
