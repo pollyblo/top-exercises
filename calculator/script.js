@@ -1,4 +1,4 @@
-// Main
+// Main TODO : KEYBOARD SENSITIVE, FLOAT
 
 const display = document.getElementById('display');
 const digits = document.querySelectorAll('.digit');
