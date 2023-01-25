@@ -4,7 +4,6 @@ const display = document.getElementById('display');
 const digits = document.querySelectorAll('.digit');
 const operator = document.querySelectorAll('.operator');
 const equals = document.getElementById('equals');
-const storingResult = document.getElementById('stored-result');
 const clear = document.getElementById('clear');
 const float = document.getElementById('float');
 
@@ -12,20 +11,6 @@ let resultStorage = 0;
 let storage = '';
 let arrOperate = [];
 let equalExecuted = false;
-
-digits.forEach((digit) => {
-   digit.addEventListener('click', displayDigit);
-});
-
-operator.forEach((op) => {
-   op.addEventListener('click', storingOperator);
-});
-
-equals.addEventListener('click', equalsTo);
-
-clear.addEventListener('click', clearAll);
-
-float.addEventListener('click', floatNumber);
 
 function displayDigit(e) {
    if (equalExecuted) {
@@ -86,7 +71,8 @@ function equalsTo() {
       storage = arrOperate[0];
       arrOperate.pop();
       return;
-   } else if (arrOperate.length == 2) {
+   }
+   if (arrOperate.length == 2) {
       arrOperate = [arrOperate[0], arrOperate[1]];
       display.textContent = `${arrOperate[0]} ${arrOperate[1]}`;
    }
@@ -118,15 +104,6 @@ function isFloat() {
    return isFloat;
 }
 
-function floatNumber() {
-   if (!isFloat()) {
-      display.textContent += '.';
-      storage += '.';
-   } else {
-      return;
-   }
-}
-
 // Operators functions
 
 function add(n1, n2) {
@@ -152,9 +129,8 @@ function divide(n1, n2) {
    const n2ToNumber = Number(n2);
    if (n2ToNumber === 0) {
       return (display.textContent = 'impossible');
-   } else {
-      return Math.round((n1ToNumber / n2ToNumber) * 100) / 100;
    }
+   return Math.round((n1ToNumber / n2ToNumber) * 100) / 100;
 }
 
 function operate(operator, n1, n2) {
@@ -171,3 +147,17 @@ function operate(operator, n1, n2) {
          console.log('Mauvais opérateur');
    }
 }
+
+digits.forEach((digit) => {
+   digit.addEventListener('click', displayDigit);
+});
+
+operator.forEach((op) => {
+   op.addEventListener('click', storingOperator);
+});
+
+equals.addEventListener('click', equalsTo);
+
+clear.addEventListener('click', clearAll);
+
+float.addEventListener('click', floatNumber);
