@@ -1,12 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Document</title>
-   </head>
-   <body>
-      <script src="./script.js"></script>
-   </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container-input">
+      <div>
+        <label for="book-title">Titre du livre</label>
+        <input type="text" name="book-title" id="book-title" />
+      </div>
+      <div>
+        <label for="author-name">Nom de l'auteur</label>
+        <input type="text" name="author-name" id="author-name" />
+      </div>
+      <div>
+        <label for="pages">Nombre de pages</label>
+        <input type="text" name="pages" id="pages" />
+      </div>
+      <div>
+        <label for="read-check">Lu</label>
+        <input type="checkbox" name="read-check" id="read-check" />
+      </div>
+      <button type="button" id="save-btn">Save</button>
+    </div>
+    <div class="container-display">
+      <table>
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Pages</th>
+            <th>Lu</th>
+          </tr>
+        </thead>
+        <tbody id="table">
+          <tr>
+            <td>Lala</td>
+            <td>Lolo</td>
+            <td>Lili</td>
+            <td>Oui</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script src="./script.js"></script>
+  </body>
 </html>
