@@ -5,9 +5,18 @@
 }
 
 .container-input {
-  display: flex;
+  display: none;
 }
 
 table {
   border: 1px solid black;
+}
+
+.error-msg {
+  font-size: 0.8rem;
+  color: red;
+}
+
+#number-error {
+  display: none;
 }

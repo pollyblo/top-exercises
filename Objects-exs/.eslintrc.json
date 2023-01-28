@@ -13,6 +13,6 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "no-useless-return": "off"
+        // "no-useless-return": "off"
     }
 }

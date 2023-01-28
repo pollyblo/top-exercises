@@ -8,7 +8,8 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="container-input">
+    <button type="button" id="add-book">New Book</button>
+    <form class="container-input" id="form">
       <div>
         <label for="book-title">Titre du livre</label>
         <input type="text" name="book-title" id="book-title" />
@@ -20,13 +21,14 @@
       <div>
         <label for="pages">Nombre de pages</label>
         <input type="text" name="pages" id="pages" />
+        <div class="error-msg" id="number-error">Entrez un chiffre !</div>
       </div>
       <div>
         <label for="read-check">Lu</label>
         <input type="checkbox" name="read-check" id="read-check" />
       </div>
-      <button type="button" id="save-btn">Save</button>
-    </div>
+      <button type="submit" id="save-btn">Save</button>
+    </form>
     <div class="container-display">
       <table>
         <thead>
@@ -37,14 +39,7 @@
             <th>Lu</th>
           </tr>
         </thead>
-        <tbody id="table">
-          <tr>
-            <td>Lala</td>
-            <td>Lolo</td>
-            <td>Lili</td>
-            <td>Oui</td>
-          </tr>
-        </tbody>
+        <tbody id="table"></tbody>
       </table>
     </div>
     <script src="./script.js"></script>
