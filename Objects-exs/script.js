@@ -4,49 +4,59 @@ const nPages = document.getElementById('pages');
 const readCheck = document.getElementById('read-check');
 const saveButton = document.getElementById('save-btn');
 const tBody = document.getElementById('table');
-const tRows = document.getElementsByTagName('tr');
 const addBook = document.getElementById('add-book');
 const form = document.getElementById('form');
 const nError = document.getElementById('number-error');
 const deleteBtn = document.getElementsByClassName('delete-btn');
+const readToggle = document.getElementsByClassName('read-toggle');
+let myLibrary = [];
 
 function Book(title, author, pages, read, index) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  if (read === false) {
-    this.read = 'not read yet';
-  } else {
-    this.read = 'already read';
-  }
+  this.read = read;
   this.index = index;
+  this.isRead = () => {
+    this.read = !this.read;
+    return this;
+  };
 }
 
-Book.prototype.info = function () {
-  return `${this.title}, ${this.author}, ${this.pages}, ${this.read}.`;
-};
-
-let myLibrary = [];
-
-function deleteRow(index) {
-  const rowArray = Array.from(tRows).slice(1);
-  for (let i = 0; i <= rowArray.length - 1; i += 1) {
-    const idxRow = Number(rowArray[i].dataset.index);
-    console.log(i, rowArray[i].dataset.index);
-    if (idxRow === index) {
-      tBody.deleteRow(index);
-
-      console.log(rowArray);
+function updateRow() {
+  tBody.innerHTML = '';
+  myLibrary.forEach((book) => {
+    let contentCell;
+    const bookValues = Object.values(book);
+    const newRow = tBody.insertRow(0);
+    const button = document.createElement('button');
+    for (let i = 0; i < 4; i += 1) {
+      const newCell = newRow.insertCell(i);
+      if (i === 3) {
+        contentCell = document.createElement('button');
+        contentCell.setAttribute('class', 'read-toggle');
+        contentCell.setAttribute('data-index', book.index);
+        contentCell.textContent = bookValues[i];
+      } else {
+        contentCell = document.createTextNode(bookValues[i]);
+      }
+      newCell.appendChild(contentCell);
     }
-  }
+    button.setAttribute('class', 'delete-btn');
+    button.setAttribute('data-index', book.index);
+    button.textContent = 'Supprimer';
+    newRow.appendChild(button);
+  });
+  deleteBook();
+  toggleReading();
 }
 
 function deleteBook() {
   Array.from(deleteBtn).forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      const idxRow = Number(e.target.dataset.index);
-      const newLib = myLibrary.reduce((arr, book) => {
-        if (book.index !== idxRow) {
+      const idxRow = e.target.dataset.index;
+      myLibrary = myLibrary.reduce((arr, book) => {
+        if (book.index !== Number(idxRow)) {
           arr.push({
             ...book,
             index: arr.length,
@@ -54,31 +64,9 @@ function deleteBook() {
         }
         return arr;
       }, []);
-      myLibrary = newLib;
-      deleteRow(idxRow);
+      updateRow();
     });
   });
-}
-
-function addRow(e) {
-  e.preventDefault();
-  tBody.innerHTML = '';
-  myLibrary.forEach((book) => {
-    const bookValues = Object.values(book);
-    const newRow = tBody.insertRow(0);
-    const button = document.createElement('button');
-    for (let i = 0; i < 4; i += 1) {
-      const newCell = newRow.insertCell(i);
-      const contentCell = document.createTextNode(bookValues[i]);
-      newCell.appendChild(contentCell);
-    }
-    button.setAttribute('class', 'delete-btn');
-    button.setAttribute('data-index', book.index);
-    button.textContent = 'Supprimer';
-    newRow.appendChild(button);
-    newRow.dataset.index = book.index;
-  });
-  deleteBook();
 }
 
 function addBookToLibrary(e) {
@@ -100,8 +88,20 @@ function addBookToLibrary(e) {
   });
   if (isInputFalse || isPageNumber) return;
   myLibrary.unshift(bookSaved);
-  addRow(e, myLibrary);
+  updateRow();
   form.reset();
+}
+
+function toggleReading() {
+  Array.from(readToggle).forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const idxToggle = Number(e.target.dataset.index);
+      myLibrary = myLibrary.map((book) =>
+        book.index === idxToggle ? book.isRead() : book
+      );
+      updateRow();
+    });
+  });
 }
 
 saveButton.addEventListener('click', addBookToLibrary);
