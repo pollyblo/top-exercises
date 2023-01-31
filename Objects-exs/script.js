@@ -87,7 +87,10 @@ function addBookToLibrary(e) {
     }
   });
   if (isInputFalse || isPageNumber) return;
-  myLibrary.unshift(bookSaved);
+  myLibrary.push(bookSaved);
+  for (let i = 0; i < myLibrary.length; i += 1) {
+    myLibrary[i].index = i;
+  }
   updateRow();
   form.reset();
 }
