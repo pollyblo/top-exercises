@@ -20,3 +20,8 @@ table {
 #number-error {
   display: none;
 }
+
+td:last-child {
+  border: none;
+  background-color: white
+}
