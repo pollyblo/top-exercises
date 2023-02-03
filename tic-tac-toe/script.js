@@ -15,12 +15,31 @@ const gameFlow = (() => {
   const actualBoard = gameBoard.generateGameboard();
   const isShotPossible = (n) => actualBoard[n] === '';
   const isWinning = (symbol) => {
-    // const filteredBoard = actualBoard.map((grid, i) => {
-    //   if (grid[i] === symbol) {
-    //     return i;
-    //   }
-    //   return i - 9999;
-    // });
+    const combs = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    let counter = 0;
+    for (let i = 0; i < combs.length; i += 1) {
+      counter = 0;
+      for (let j = 0; j < combs[i].length; j += 1) {
+        if (actualBoard[combs[i][j]] === symbol) {
+          counter += 1;
+        } else {
+          counter = 0;
+        }
+      }
+      if (counter === 3) {
+        break;
+      }
+    }
+    return counter === 3;
   };
   return {
     actualBoard,
@@ -51,6 +70,13 @@ const player = (whichPlayer) => {
 const rendering = (() => {
   const container = document.getElementById('container');
   const modelBoard = gameFlow.actualBoard;
+  const displayResult = () => {
+    if (gameFlow.isWinning('X')) {
+      console.log('Bravo X');
+    } else if (gameFlow.isWinning('O')) {
+      console.log('Bravo O');
+    }
+  };
   const displayBoard = () => {
     container.replaceChildren();
     modelBoard.forEach((grid, i) => {
@@ -81,6 +107,7 @@ const rendering = (() => {
           p2.playerShot(e.target.value);
         }
         displayBoard();
+        displayResult();
       });
     });
   };
