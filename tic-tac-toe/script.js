@@ -145,14 +145,17 @@ const domRendering = (() => {
       gameFlow.turn = 0;
     }
   };
+
   const listenerShot = () => {
     const buttons = document.querySelectorAll('.case');
     buttons.forEach((btn) => {
       btn.addEventListener('click', (e) => {
+        let randomVal;
         if (!gameFlow.isShotPossible(e.target.value)) {
           return;
         }
         // eslint-disable-next-line no-unused-expressions
+
         if (gameFlow.turn % 2 === 0) {
           gameFlow.alterBoard(e.target.value, 'X');
           gameFlow.actualBoard[e.target.value] = 'X';
@@ -160,8 +163,15 @@ const domRendering = (() => {
           gameFlow.alterBoard(e.target.value, 'O');
           gameFlow.actualBoard[e.target.value] = 'O';
         }
-        console.log('model board', gameFlow.actualBoard);
-        gameFlow.turn += 1;
+
+        AIMove();
+        // do {
+        //   randomVal = Math.floor(Math.random() * 9);
+        // } while (
+        //   !gameFlow.isShotPossible(randomVal) &&
+        //   !gameBoard.isFull(gameFlow.actualBoard)
+        // );
+        gameFlow.turn += 2;
 
         displayBoard();
         resetGame();
@@ -186,3 +196,69 @@ const domRendering = (() => {
 
 const newGame = domRendering.displayBoard();
 const rstButton = domRendering.restartOption();
+
+function AIMove() {
+  console.log(gameFlow.actualBoard);
+  let bestScore = -Infinity;
+  let bestMove = null;
+  for (let i = 0; i < 9; i += 1) {
+    if (gameFlow.actualBoard[i] === '') {
+      gameFlow.actualBoard[i] = 'O';
+      const score = minimax(gameFlow.actualBoard, true);
+      gameFlow.actualBoard[i] = '';
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = i;
+      }
+    }
+  }
+  gameFlow.alterBoard(bestMove, 'O');
+  gameFlow.actualBoard[bestMove] = 'O';
+}
+
+let score;
+
+function minimax(board, isMax) {
+  const resultX = gameFlow.isWinning('X');
+  const resultO = gameFlow.isWinning('O');
+
+  if (resultO) {
+    const score = -1;
+    return score;
+  }
+  if (resultX) {
+    const score = 1;
+    return score;
+  }
+  if (gameBoard.isFull(board)) {
+    const score = 0;
+    return score;
+  }
+
+  if (isMax) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < 9; i += 1) {
+      if (board[i] === '') {
+        board[i] = 'O';
+        const score = minimax(board, false);
+        board[i] = '';
+        if (score > bestScore) {
+          bestScore = score;
+        }
+      }
+    }
+    return bestScore;
+  }
+  let bestScore = Infinity;
+  for (let i = 0; i < 9; i += 1) {
+    if (board[i] === '') {
+      board[i] = 'X';
+      const score = minimax(board, true);
+      board[i] = '';
+      if (score < bestScore) {
+        bestScore = score;
+      }
+    }
+  }
+  return bestScore;
+}
